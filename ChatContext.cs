@@ -17,7 +17,7 @@ namespace EFDatabase
             modelBuilder.Entity<User>(entity =>
             {
                 //key connecting
-                entity.HasKey(x => x.Id).HasName("user_pkey");
+                entity.HasKey(x => x.Id).HasName("user_pk");
                 entity.ToTable("users");
                 //fields
                 entity.Property(e => e .FullName).HasColumnName("FullName").HasMaxLength(255);
@@ -25,7 +25,7 @@ namespace EFDatabase
             modelBuilder.Entity<Message>(entity =>
             {
                 //key connecting
-                entity.HasKey(x => x.Id).HasName("message_pkey");
+                entity.HasKey(x => x.Id).HasName("message_pk");
                 entity.ToTable("messages");
                 //fields
                 entity.Property(e => e.Text).HasColumnType("message_text");
