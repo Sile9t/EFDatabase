@@ -42,9 +42,5 @@ namespace EFDatabase
                     .HasForeignKey(x => x.FromId).HasConstraintName("message_from_user_fk");
             });
         }
-        public ChatContext()
-        {
-            
-        }
     }
 }
