@@ -17,10 +17,13 @@ namespace EFDatabase
             modelBuilder.Entity<User>(entity =>
             {
                 //key connecting
-                entity.HasKey(x => x.Id).HasName("user_pk");
                 entity.ToTable("users");
+                //constrants
+                entity.HasKey(x => x.Id).HasName("user_pk");
+                entity.HasIndex(e => e.FullName).IsUnique();
                 //fields
-                entity.Property(e => e .FullName).HasColumnName("FullName").HasMaxLength(255);
+                entity.Property(e => e.FullName).HasColumnName("FullName").HasMaxLength(255)
+                    .IsRequired();
             });
             modelBuilder.Entity<Message>(entity =>
             {
