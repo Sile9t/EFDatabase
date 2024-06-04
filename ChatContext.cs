@@ -36,7 +36,8 @@ namespace EFDatabase
                 entity.Property(e => e.IsSent).HasColumnName("is_sent");
                 entity.Property(e => e.Id).HasColumnName("id");
                 //connections
-                entity.HasOne(x => x.To).WithMany(m => m.MessagesTo);
+                entity.HasOne(x => x.To).WithMany(m => m.MessagesTo)
+                    .HasConstraintName("message_to_user_fk");
                 entity.HasOne(x => x.From).WithMany(m => m.MessagesFrom)
                     .HasForeignKey(x => x.FromId).HasConstraintName("message_from_user_fk");
             });
