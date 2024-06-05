@@ -4,7 +4,8 @@ namespace EFDatabase
 {
     public class ChatContext : DbContext
     {
-        private readonly string connection = "Server=localhost;Database=lessonDatabase;Trusted_Connection=True;";
+        private readonly string connection = @"Server=DESKTOP-U893DOI;Database=lessonDatabase;" +
+            "TrustServerCertificate=True;Trusted_Connection=True";
         public DbSet<User> Users { get; set; }
         public DbSet<Message> Messages { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
