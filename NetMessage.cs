@@ -9,8 +9,10 @@ namespace EFDatabase
 {
     public class NetMessage
     {
+        public int Id { get; set; }
         public string Text { get; set; }
         public DateTime Date { get; set; }
+        public Command Command { get; set; }
         public string? From { get; set; }
         public string? To { get; set; }
         public NetMessage(string txt, string from, string to)
