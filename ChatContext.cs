@@ -38,9 +38,13 @@ namespace EFDatabase
                 entity.Property(e => e.Id).HasColumnName("id");
                 //connections
                 entity.HasOne(x => x.To).WithMany(m => m.MessagesTo)
-                    .HasForeignKey(x => x.ToId).HasConstraintName("message_to_user_fk");
+                    .HasForeignKey(x => x.ToId)
+                    .OnDelete(DeleteBehavior.NoAction)
+                    .HasConstraintName("message_to_user_fk");
                 entity.HasOne(x => x.From).WithMany(m => m.MessagesFrom)
-                    .HasForeignKey(x => x.FromId).HasConstraintName("message_from_user_fk");
+                    .HasForeignKey(x => x.FromId)
+                    .OnDelete(DeleteBehavior.NoAction)
+                    .HasConstraintName("message_from_user_fk");
             });
         }
     }

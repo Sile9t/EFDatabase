@@ -42,14 +42,12 @@ namespace EFDatabase.Migrations
                         name: "message_from_user_fk",
                         column: x => x.FromId,
                         principalTable: "users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "message_to_user_fk",
                         column: x => x.ToId,
                         principalTable: "users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(

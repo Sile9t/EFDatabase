@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFDatabase.Migrations
 {
     [DbContext(typeof(ChatContext))]
-    [Migration("20240604190558_InitialMigration")]
+    [Migration("20240605090654_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -92,14 +92,14 @@ namespace EFDatabase.Migrations
                     b.HasOne("EFDatabase.User", "From")
                         .WithMany("MessagesFrom")
                         .HasForeignKey("FromId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired()
                         .HasConstraintName("message_from_user_fk");
 
                     b.HasOne("EFDatabase.User", "To")
                         .WithMany("MessagesTo")
                         .HasForeignKey("ToId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired()
                         .HasConstraintName("message_to_user_fk");
 
