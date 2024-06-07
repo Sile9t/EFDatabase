@@ -10,28 +10,29 @@ namespace EFDatabase
         string _address;
         int _port;
         IMessageSource _messageSource;
+        IPEndPoint _endPoint;
         public Client(string name, string address, int port)
         {
             _name = name;
             _address = address;
             _port = port;
             _messageSource = new UDPMessageSource();
+            _endPoint = new IPEndPoint(IPAddress.Parse(_address), _port);
         }
-        void Start()
+        public async Task Start()
         {
-
+            await Listen();
         }
         private async Task Listen()
         {
-            IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(_address), _port);
             while (true)
             {
                 try
                 {
-                    var messageReceived = _messageSource.Receive(ref endPoint);
+                    var messageReceived = _messageSource.Receive(ref _endPoint);
                     Console.WriteLine($"Received message from '{messageReceived.From}':");
                     Console.WriteLine(messageReceived.Text);
-                    await Confirm(messageReceived, endPoint);
+                    await Confirm(messageReceived, _endPoint);
                 }
                 catch (Exception ex)
                 {
