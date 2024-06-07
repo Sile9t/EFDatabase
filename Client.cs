@@ -45,5 +45,10 @@ namespace EFDatabase
             msg.Command = Command.Confirmation;
             await _messageSource.SendAsync(msg, endPoint);
         }
+        async Task Register(IPEndPoint endPoint)
+        {
+            var msg = new NetMessage(null, Command.Register, _name, null);
+            await _messageSource.SendAsync(msg, _endPoint);
+        }
     }
 }

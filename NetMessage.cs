@@ -10,10 +10,11 @@ namespace EFDatabase
         public Command Command { get; set; }
         public string? From { get; set; }
         public string? To { get; set; }
-        public NetMessage(string txt, string from, string to)
+        public NetMessage(string txt, Command command, string from, string to)
         {
             Text = txt;
             Date = DateTime.Now;
+            Command = command;
             From = from;
             To = to;
         }

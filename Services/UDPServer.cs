@@ -90,7 +90,7 @@ namespace EFDatabase.Services
             {
                 try
                 {
-                    var msg = _messageSource.Receive(_endPoint);
+                    var msg = _messageSource.Receive(ref _endPoint);
                     Console.WriteLine(msg);
                     await ProcessMessage(msg);
                 }
