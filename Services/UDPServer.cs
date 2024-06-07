@@ -67,6 +67,19 @@ namespace EFDatabase.Services
             }
             else Console.WriteLine("User not found");
         }
+        void ConfirmMessageReceived(int id)
+        {
+            Console.WriteLine($"Message comfirmation id : {id}");
+            using (var context = new ChatContext())
+            {
+                var msg = context.Messages.FirstOrDefault(x => x.Id == id);
+                if (msg != null)
+                {
+                    msg.IsSent = true;
+                    context.SaveChanges();
+                }
+            }
+        }
         public async Task Listen()
         {
             Console.WriteLine("Server is waiting for message");
