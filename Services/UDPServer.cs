@@ -7,16 +7,20 @@ namespace EFDatabase.Services
 {
     public class UDPServer
     {
+        Dictionary<string, IPEndPoint> clients = new Dictionary<string, IPEndPoint>();
         private readonly IMessageSource _messageSource;
+        private IPEndPoint _endPoint;
         public UDPServer()
         {
             _messageSource = new UDPMessageSource();
+            _endPoint = new IPEndPoint(IPAddress.Any, 0);
         }
-        void ProcessMessage(NetMessage message)
+        async Task ProcessMessage(NetMessage message)
         {
             switch (message.Command)
             {
                 case Command.Register:
+                    await Register(message);
                     break;
                 case Command.Message:
                     break;
@@ -24,10 +28,20 @@ namespace EFDatabase.Services
                     break;
             }
         }
+        private async Task Register(NetMessage message)
+        {
+            Console.WriteLine($"Message register {message.From}");
+            if (clients.TryAdd(message.From, _endPoint))
+            {
+                using (var context = new ChatContext())
+                {
+                    context.Users.Add(new User { FullName = message.From });
+                    await context.SaveChangesAsync();
+                }
+            }
+        }
         public async Task Listen()
         {
-            //UdpClient udpClient = new UdpClient(12345);
-            IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, 0);
             Console.WriteLine("Server is waiting for message");
 
             CancellationTokenSource cts = new CancellationTokenSource();
@@ -35,9 +49,9 @@ namespace EFDatabase.Services
             {
                 try
                 {
-                    var msg = _messageSource.Receive(endPoint);
+                    var msg = _messageSource.Receive(_endPoint);
                     Console.WriteLine(msg);
-                    ProcessMessage(msg);
+                    await ProcessMessage(msg);
                 }
                 catch (Exception ex) 
                 {
