@@ -6,18 +6,14 @@ namespace EFDatabase
 {
     public class Client
     {
-        string _name;
-        string _address;
-        int _port;
+        private readonly string _name;
         IMessageSource _messageSource;
         IPEndPoint _endPoint;
         public Client(string name, string address, int port)
         {
             _name = name;
-            _address = address;
-            _port = port;
             _messageSource = new UDPMessageSource();
-            _endPoint = new IPEndPoint(IPAddress.Parse(_address), _port);
+            _endPoint = new IPEndPoint(IPAddress.Parse(address), port);
         }
         public async Task Start()
         {
