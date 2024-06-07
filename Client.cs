@@ -50,5 +50,27 @@ namespace EFDatabase
             var msg = new NetMessage(null, Command.Register, _name, null);
             await _messageSource.SendAsync(msg, _endPoint);
         }
+        async Task Sender()
+        {
+            await Register(_endPoint);
+            while (true)
+            {
+                try
+                {
+                    Console.WriteLine("Enter recipient name:");
+                    var recipientName = Console.ReadLine();
+                    Console.WriteLine("Waiting for input...");
+                    Console.WriteLine("Enter message:");
+                    var text = Console.ReadLine();
+                    var message = new NetMessage(text, Command.Message, _name, recipientName);
+                    await _messageSource.SendAsync(message, _endPoint);
+                    Console.WriteLine("Message sent");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+            }
+        }
     }
 }
