@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EFDatabase")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+659bfb47ec37a9dbe7f96fec4590061e00b844b9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+85650b7ea4556cc91bea70722f9d826fe977e86b")]
 [assembly: System.Reflection.AssemblyProductAttribute("EFDatabase")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EFDatabase")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
