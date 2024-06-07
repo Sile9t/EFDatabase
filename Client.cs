@@ -31,13 +31,18 @@ namespace EFDatabase
                     var messageReceived = _messageSource.Receive(ref endPoint);
                     Console.WriteLine($"Received message from '{messageReceived.From}':");
                     Console.WriteLine(messageReceived.Text);
-
+                    await Confirm(messageReceived, endPoint);
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex);
                 }
             }
+        }
+        async Task Confirm(NetMessage msg, IPEndPoint endPoint)
+        {
+            msg.Command = Command.Confirmation;
+            await _messageSource.SendAsync(msg, endPoint);
         }
     }
 }
