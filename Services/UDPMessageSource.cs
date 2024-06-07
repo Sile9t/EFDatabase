@@ -19,7 +19,7 @@ namespace EFDatabase.Services
             return NetMessage.DeserializeFromJson(text) ?? new NetMessage();
         }
 
-        public async Task Send(NetMessage msg, IPEndPoint endPoint)
+        public async Task SendAsync(NetMessage msg, IPEndPoint endPoint)
         {
             var text = msg.SerializeToJson();
             var buffer = Encoding.UTF8.GetBytes(text);

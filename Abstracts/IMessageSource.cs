@@ -4,7 +4,7 @@ namespace EFDatabase.Abstracts
 {
     public interface IMessageSource
     {
-        void Send(NetMessage msg, IPEndPoint endPoint);
+        Task SendAsync(NetMessage msg, IPEndPoint endPoint);
         NetMessage Receive(IPEndPoint endPoint);
     }
 }

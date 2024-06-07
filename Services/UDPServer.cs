@@ -23,6 +23,7 @@ namespace EFDatabase.Services
                     await Register(message);
                     break;
                 case Command.Message:
+                    await Reply(message);
                     break;
                 case Command.Confirmation:
                     break;
@@ -39,6 +40,32 @@ namespace EFDatabase.Services
                     await context.SaveChangesAsync();
                 }
             }
+        }
+        private async Task Reply(NetMessage message)
+        {
+            if (clients.TryGetValue(message.To, out IPEndPoint ep))
+            {
+                int id = 0;
+                using (var context = new ChatContext())
+                {
+                    var fromUser = context.Users.First(x => x.FullName == message.From);
+                    var toUser = context.Users.First(x => x.FullName == message.To);
+                    var msg = new Message
+                    {
+                        From = fromUser,
+                        To = toUser,
+                        IsSent = false,
+                        Text = message.Text
+                    };
+                    context.Messages.Add(msg);
+                    context.SaveChanges();
+                    id = msg.Id;
+                }
+                message.Id = id;
+                await _messageSource.SendAsync(message, ep);
+                Console.WriteLine($"Message replied form : {message.From} to : {message.To}");
+            }
+            else Console.WriteLine("User not found");
         }
         public async Task Listen()
         {
