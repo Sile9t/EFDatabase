@@ -17,6 +17,11 @@ namespace EFDatabase
             From = from;
             To = to;
         }
+
+        public NetMessage()
+        {
+        }
+
         public string SerializeToJson() => JsonSerializer.Serialize(this);
         public static NetMessage? DeserializeFromJson(string msg) 
             => JsonSerializer.Deserialize<NetMessage>(msg);

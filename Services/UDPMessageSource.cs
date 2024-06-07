@@ -1,23 +1,29 @@
 ﻿using EFDatabase.Abstracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
+using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace EFDatabase.Services
 {
     public class UDPMessageSource : IMessageSource
     {
-        public NetMessage Receive(IPEndPoint endPoint)
+        private readonly UdpClient _udpClient;
+        public UDPMessageSource()
         {
-            throw new NotImplementedException();
+            _udpClient = new UdpClient();
+        }
+        public NetMessage Receive(ref IPEndPoint endPoint)
+        {
+            var buffer = _udpClient.Receive(ref endPoint);
+            var text = Encoding.UTF8.GetString(buffer);
+            return NetMessage.DeserializeFromJson(text) ?? new NetMessage();
         }
 
-        public void Send(NetMessage msg, IPEndPoint endPoint)
+        public async Task Send(NetMessage msg, IPEndPoint endPoint)
         {
-            throw new NotImplementedException();
+            var text = msg.SerializeToJson();
+            var buffer = Encoding.UTF8.GetBytes(text);
+            await _udpClient.SendAsync(buffer);
         }
     }
 }
