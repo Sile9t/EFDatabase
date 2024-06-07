@@ -43,7 +43,7 @@ namespace EFDatabase
         }
         async Task Register(IPEndPoint endPoint)
         {
-            var msg = new NetMessage(null, Command.Register, _name, null);
+            var msg = new NetMessage("", Command.Register, _name, "");
             await _messageSource.SendAsync(msg, _endPoint);
         }
         async Task Sender()
@@ -58,7 +58,7 @@ namespace EFDatabase
                     Console.WriteLine("Waiting for input...");
                     Console.WriteLine("Enter message:");
                     var text = Console.ReadLine();
-                    var message = new NetMessage(text, Command.Message, _name, recipientName);
+                    var message = new NetMessage(text!, Command.Message, _name, recipientName!);
                     await _messageSource.SendAsync(message, _endPoint);
                     Console.WriteLine("Message sent");
                 }
