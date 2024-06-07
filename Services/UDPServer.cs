@@ -26,6 +26,7 @@ namespace EFDatabase.Services
                     await Reply(message);
                     break;
                 case Command.Confirmation:
+                    ConfirmMessageReceived(message.Id);
                     break;
             }
         }
