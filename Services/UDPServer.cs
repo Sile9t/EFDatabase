@@ -26,7 +26,7 @@ namespace EFDatabase.Services
                     await Reply(message);
                     break;
                 case Command.Confirmation:
-                    ConfirmMessageReceived(message.Id);
+                    await ConfirmMessageReceived(message.Id);
                     break;
             }
         }
@@ -68,7 +68,7 @@ namespace EFDatabase.Services
             }
             else Console.WriteLine("User not found");
         }
-        void ConfirmMessageReceived(int id)
+        async Task ConfirmMessageReceived(int id)
         {
             Console.WriteLine($"Message comfirmation id : {id}");
             using (var context = new ChatContext())
@@ -77,7 +77,7 @@ namespace EFDatabase.Services
                 if (msg != null)
                 {
                     msg.IsSent = true;
-                    context.SaveChanges();
+                    await context.SaveChangesAsync();
                 }
             }
         }
