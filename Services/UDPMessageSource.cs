@@ -10,7 +10,7 @@ namespace EFDatabase.Services
         private readonly UdpClient _udpClient;
         public UDPMessageSource()
         {
-            _udpClient = new UdpClient();
+            _udpClient = new UdpClient(12345);
         }
         public NetMessage Receive(ref IPEndPoint endPoint)
         {

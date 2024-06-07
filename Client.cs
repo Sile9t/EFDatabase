@@ -1,5 +1,6 @@
 ﻿using EFDatabase.Abstracts;
 using EFDatabase.Services;
+using System.Net;
 
 namespace EFDatabase
 {
@@ -15,6 +16,28 @@ namespace EFDatabase
             _address = address;
             _port = port;
             _messageSource = new UDPMessageSource();
+        }
+        void Start()
+        {
+
+        }
+        private async Task Listen()
+        {
+            IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(_address), _port);
+            while (true)
+            {
+                try
+                {
+                    var messageReceived = _messageSource.Receive(ref endPoint);
+                    Console.WriteLine($"Received message from '{messageReceived.From}':");
+                    Console.WriteLine(messageReceived.Text);
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+            }
         }
     }
 }
