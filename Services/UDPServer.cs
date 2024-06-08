@@ -15,6 +15,11 @@ namespace EFDatabase.Services
             _messageSource = new UDPMessageSource();
             _endPoint = new IPEndPoint(IPAddress.Any, 0);
         }
+        public UDPServer(IMessageSource messageSource)
+        {
+            _messageSource = messageSource;
+            _endPoint = new IPEndPoint(IPAddress.Any, 0);
+        }
         async Task ProcessMessage(NetMessage message)
         {
             switch (message.Command)
