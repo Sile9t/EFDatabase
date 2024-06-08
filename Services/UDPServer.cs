@@ -22,6 +22,7 @@ namespace EFDatabase.Services
         }
         async Task ProcessMessage(NetMessage message)
         {
+            if (message == null) return;
             switch (message.Command)
             {
                 case Command.Register:
@@ -90,8 +91,7 @@ namespace EFDatabase.Services
         {
             Console.WriteLine("Server is waiting for message");
 
-            CancellationTokenSource cts = new CancellationTokenSource();
-            while (!cts.IsCancellationRequested)
+            while (_work)
             {
                 try
                 {
@@ -104,6 +104,11 @@ namespace EFDatabase.Services
                     Console.WriteLine(ex);
                 }
             }
+        }
+        bool _work = true;
+        public void Stop()
+        {
+            _work = false;
         }
     }
 }
