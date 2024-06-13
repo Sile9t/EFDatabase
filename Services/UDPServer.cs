@@ -70,7 +70,7 @@ namespace EFDatabase.Services
                 }
                 message.Id = id;
                 await _messageSource.SendAsync(message, ep);
-                Console.WriteLine($"Message replied form : {message.From} to : {message.To}");
+                Console.WriteLine($"Message replied From : {message.From} To : {message.To}");
             }
             else Console.WriteLine("User not found");
         }

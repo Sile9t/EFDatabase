@@ -9,24 +9,34 @@ namespace EFDatabase
         private readonly string _name;
         IMessageSource _messageSource;
         IPEndPoint _endPoint;
+        bool _work = true;
         public Client(string name, string address, int port)
         {
             _name = name;
             _messageSource = new UDPMessageSource();
             _endPoint = new IPEndPoint(IPAddress.Parse(address), port);
         }
+        public Client(string name, IMessageSource source, string address, int port)
+        {
+            _name = name;
+            _messageSource = source;
+            _endPoint = new IPEndPoint(IPAddress.Parse(address), port);
+        }
         public async Task Start()
         {
             await Listen();
         }
+        public void Stop() => _work = false;
         private async Task Listen()
         {
-            while (true)
+            Console.WriteLine("Client is waiting for message");
+            while (_work)
             {
                 try
                 {
                     var messageReceived = _messageSource.Receive(ref _endPoint);
-                    Console.WriteLine($"Received message from '{messageReceived.From}':");
+                    //Console.WriteLine(messageReceived);
+                    Console.WriteLine($"Received message From '{messageReceived.From}':");
                     Console.WriteLine(messageReceived.Text);
                     await Confirm(messageReceived, _endPoint);
                 }
@@ -46,27 +56,6 @@ namespace EFDatabase
             var msg = new NetMessage("", Command.Register, _name, "");
             await _messageSource.SendAsync(msg, _endPoint);
         }
-        async Task Sender()
-        {
-            await Register(_endPoint);
-            while (true)
-            {
-                try
-                {
-                    Console.WriteLine("Enter recipient name:");
-                    var recipientName = Console.ReadLine();
-                    Console.WriteLine("Waiting for input...");
-                    Console.WriteLine("Enter message:");
-                    var text = Console.ReadLine();
-                    var message = new NetMessage(text!, Command.Message, _name, recipientName!);
-                    await _messageSource.SendAsync(message, _endPoint);
-                    Console.WriteLine("Message sent");
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex);
-                }
-            }
-        }
+        
     }
 }
